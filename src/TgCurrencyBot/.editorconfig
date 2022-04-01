@@ -1,0 +1,16 @@
+# Дополнительные сведения о файле EDITORCONFIG: https://aka.ms/editorconfigdocs
+root = true
+
+# All files
+[*]
+charset = utf-8
+indent_style = space
+indent_size = 4
+trim_trailing_whitespace = true
+end_of_line = lf
+insert_final_newline = false
+csharp_style_namespace_declarations=file_scoped:silent
+
+# Xml files
+[*.xml]
+indent_size = 2
