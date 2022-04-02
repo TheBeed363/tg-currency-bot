@@ -1,4 +1,3 @@
-using TgCurrencyBot.Models;
 using TgCurrencyBot.Services;
 
 namespace TgCurrencyBot;
@@ -37,6 +36,5 @@ public class Startup
             .AllowAnyHeader()
             .SetIsOriginAllowed(origin => true));
         app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
-        Bot.GetBotClientAsync().Wait();
     }
 }
