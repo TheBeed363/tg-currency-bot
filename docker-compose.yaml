@@ -8,9 +8,6 @@ networks:
       config:
         - subnet: ${SUBNET}
 
-volumes:
-  postgres_volume:
-
 services:
   app.backend:
     container_name: app.backend
@@ -45,24 +42,3 @@ services:
       - ./docker/nginx/conf.d:/etc/nginx/conf.d:cached
     environment:
       TZ: 'Europe/Moscow'
-  postgresql:
-    container_name: postgresql
-    build:
-      context: ./docker/postgresql
-    restart: always
-    networks:
-      - tgCurrencyBot
-    tty: true
-    environment:
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: ${POSTGRES_DB}
-      POSTGRES_USER: ${POSTGRES_USER}
-      TZ: 'GMT+3'
-      PGTZ: 'GMT+3'
-    ports:
-      - "${POSTGRES_PORT}:5432"
-    volumes:
-      - postgres_volume:/var/lib/postgresql/data:rw
-    depends_on:
-      - app.backend
-      - nginx
