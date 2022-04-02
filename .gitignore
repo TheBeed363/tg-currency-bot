@@ -460,3 +460,5 @@ $RECYCLE.BIN/
 
 node_modules/
 storage/
+/src/TgCurrencyBot/appSettings.Development.json
+/src/TgCurrencyBot/appSettings.Production.json
