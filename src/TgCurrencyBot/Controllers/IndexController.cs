@@ -22,6 +22,7 @@ public class IndexController : ControllerBase
         try
         {
             _memoryCache.TryGetValue("key_currency", out Currency model);
+
             return Ok(model);
         }
         catch (Exception e)

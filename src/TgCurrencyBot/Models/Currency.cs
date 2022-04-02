@@ -2,6 +2,6 @@ namespace TgCurrencyBot.Models;
 
 public class Currency
 {
-    public decimal USD { get; set; }
-    public decimal EUR { get; set; }
+    public string USD { get; set; }
+    public string EUR { get; set; }
 }
