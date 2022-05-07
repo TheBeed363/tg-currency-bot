@@ -44,7 +44,6 @@ public class CurrencyService : BackgroundService
                 converter.USD = xml.Elements("ValCurs").Elements("Valute").FirstOrDefault(x => x.Element("NumCode").Value == "840").Elements("Value").FirstOrDefault().Value;
                 // евро
                 converter.EUR = xml.Elements("ValCurs").Elements("Valute").FirstOrDefault(x => x.Element("NumCode").Value == "978").Elements("Value").FirstOrDefault().Value;
-                converter.KZT = xml.Elements("ValCurs").Elements("Valute").FirstOrDefault(x => x.Element("NumCode").Value == "398").Elements("Value").FirstOrDefault().Value;
 
                 _memoryCache.Set("key_currency", converter, TimeSpan.FromMinutes(1440));
             }

@@ -4,5 +4,4 @@ public class Currency
 {
     public string USD { get; set; }
     public string EUR { get; set; }
-    public string KZT { get; set; }
 }
