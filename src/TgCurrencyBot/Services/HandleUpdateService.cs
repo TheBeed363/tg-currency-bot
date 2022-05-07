@@ -68,7 +68,7 @@ public class HandleUpdateService
             "/remove" => RemoveKeyboard(_botClient, message),
             "/photo" => SendFile(_botClient, message),
             "/request" => RequestContactAndLocation(_botClient, message),
-            "/currency" => GetCurrency(_botClient, message, model),
+            "/currency" => GetCurrency(_botClient, message, model, _logger),
             _ => Usage(_botClient, message)
         };
 
@@ -142,34 +142,41 @@ public class HandleUpdateService
             return await bot.SendTextMessageAsync(chatId: message.Chat.Id, text: "Who or Where are you?", replyMarkup: RequestReplyKeyboard);
         }
 
-        static async Task<Message> GetCurrency(ITelegramBotClient bot, Message message, Currency model)
+        static async Task<Message> GetCurrency(ITelegramBotClient bot, Message message, Currency model, ILogger logger)
         {
-            await bot.SendChatActionAsync(message.Chat.Id, ChatAction.Typing);
-            var usd = model.USD;
-            var eur = model.EUR;
+            
 
-            // Simulate longer running task
-            await Task.Delay(500);
+            try
+            {
+                await bot.SendChatActionAsync(message.Chat.Id, ChatAction.Typing);
+                var usd = model.USD;
+                var eur = model.EUR;
+                var kzt = model.KZT;
+                var kzt1 = float.Parse(kzt);
+                kzt1 = kzt1 / 100;
+                kzt = kzt1.ToString();
 
-            InlineKeyboardMarkup inlineKeyboard = new(
-                new[]
-                {
-                    InlineKeyboardButton.WithCallbackData("USD", $"{usd} rub."),
-                    InlineKeyboardButton.WithCallbackData("EUR", $"{eur} rub."),
-                });
+                // Simulate longer running task
+                await Task.Delay(500);
 
-            return await bot.SendTextMessageAsync(chatId: message.Chat.Id, text: "Choose currency", replyMarkup: inlineKeyboard);
+                InlineKeyboardMarkup inlineKeyboard = new(
+                    new[]
+                    {
+                    InlineKeyboardButton.WithCallbackData("USD", $"{usd} руб."),
+                    InlineKeyboardButton.WithCallbackData("EUR", $"{eur} руб."),
+                    InlineKeyboardButton.WithCallbackData("KZT", $"{kzt} руб."),
+                    });
+                return await bot.SendTextMessageAsync(chatId: message.Chat.Id, text: "Выберите валюту", replyMarkup: inlineKeyboard);
+            }
+            catch (Exception e) {
+                logger.LogError(e.Message);
+                throw;
+            }
         }
 
         static async Task<Message> Usage(ITelegramBotClient bot, Message message)
         {
-            const string usage = "Usage:\n" +
-                                 "/inline   - send inline keyboard\n" +
-                                 "/keyboard - send custom keyboard\n" +
-                                 "/remove   - remove custom keyboard\n" +
-                                 "/photo    - send a photo\n" +
-                                 "/request  - request location or contact\n" +
-                                 "/currency - request current currency";
+            const string usage = "Команда:\n/currency - проверка курса валют";
 
             return await bot.SendTextMessageAsync(chatId: message.Chat.Id, text: usage, replyMarkup: new ReplyKeyboardRemove());
         }
@@ -178,9 +185,9 @@ public class HandleUpdateService
     // Process Inline Keyboard callback data
     private async Task BotOnCallbackQueryReceived(CallbackQuery callbackQuery)
     {
-        await _botClient.AnswerCallbackQueryAsync(callbackQueryId: callbackQuery.Id, text: $"Received {callbackQuery.Data}");
+        await _botClient.AnswerCallbackQueryAsync(callbackQueryId: callbackQuery.Id, text: $"Результат: {callbackQuery.Data}");
 
-        await _botClient.SendTextMessageAsync(chatId: callbackQuery.Message.Chat.Id, text: $"Received {callbackQuery.Data}");
+        await _botClient.SendTextMessageAsync(chatId: callbackQuery.Message.Chat.Id, text: $"Результат: {callbackQuery.Data}");
     }
 
     #region Inline Mode

@@ -23,6 +23,11 @@ public class IndexController : ControllerBase
         {
             _memoryCache.TryGetValue("key_currency", out Currency model);
 
+            var kzt = model.KZT;
+            var kzt1 = float.Parse(kzt) / 100;
+            kzt = kzt1.ToString();
+            model.KZT = kzt;
+
             return Ok(model);
         }
         catch (Exception e)
