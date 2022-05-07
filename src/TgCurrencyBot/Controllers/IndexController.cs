@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
+using System.Globalization;
 using TgCurrencyBot.Models;
 
 namespace TgCurrencyBot.Controllers;
@@ -22,12 +23,13 @@ public class IndexController : ControllerBase
         try
         {
             _memoryCache.TryGetValue("key_currency", out Currency model);
+            var cultur = new CultureInfo("ru-RU", false);
 
             var kzt = model.KZT;
-            var kzt1 = float.Parse(kzt) / 100;
+            var kzt1 = float.Parse(model.KZT, cultur.NumberFormat)/100;
             kzt = kzt1.ToString();
             model.KZT = kzt;
-
+            
             return Ok(model);
         }
         catch (Exception e)
