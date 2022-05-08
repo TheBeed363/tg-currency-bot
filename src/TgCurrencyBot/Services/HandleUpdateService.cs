@@ -153,6 +153,7 @@ public class HandleUpdateService
                 await bot.SendChatActionAsync(message.Chat.Id, ChatAction.Typing);
                 var usd = model.USD;
                 var eur = model.EUR;
+                var cny = model.CNY;
 
                 // Simulate longer running task
                 await Task.Delay(500);
@@ -162,8 +163,9 @@ public class HandleUpdateService
                     {
                         InlineKeyboardButton.WithCallbackData("USD", $"{usd} руб."),
                         InlineKeyboardButton.WithCallbackData("EUR", $"{eur} руб."),
+                        InlineKeyboardButton.WithCallbackData("UAN", $"{cny} руб."),
                     });
-                return await bot.SendTextMessageAsync(chatId: message.Chat.Id, text: "Выберите валюту", replyMarkup: inlineKeyboard);
+                return await bot.SendTextMessageAsync(chatId: message.Chat.Id, text: "Выберите валюту:", replyMarkup: inlineKeyboard);
             }
             catch (Exception e) {
                 logger.LogError(e.Message);

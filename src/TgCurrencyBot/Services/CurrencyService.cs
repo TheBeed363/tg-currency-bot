@@ -45,6 +45,8 @@ public class CurrencyService : BackgroundService
                 // евро
                 converter.EUR = xml.Elements("ValCurs").Elements("Valute").FirstOrDefault(x => x.Element("NumCode").Value == "978").Elements("Value").FirstOrDefault().Value;
 
+                converter.CNY = xml.Elements("ValCurs").Elements("Valute").FirstOrDefault(x => x.Element("NumCode").Value == "156").Elements("Value").FirstOrDefault().Value;
+
                 _memoryCache.Set("key_currency", converter, TimeSpan.FromMinutes(1440));
             }
             catch (Exception e)
