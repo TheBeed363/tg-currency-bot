@@ -44,8 +44,12 @@ public class CurrencyService : BackgroundService
                 converter.USD = xml.Elements("ValCurs").Elements("Valute").FirstOrDefault(x => x.Element("NumCode").Value == "840").Elements("Value").FirstOrDefault().Value;
                 // евро
                 converter.EUR = xml.Elements("ValCurs").Elements("Valute").FirstOrDefault(x => x.Element("NumCode").Value == "978").Elements("Value").FirstOrDefault().Value;
-
-                converter.CNY = xml.Elements("ValCurs").Elements("Valute").FirstOrDefault(x => x.Element("NumCode").Value == "156").Elements("Value").FirstOrDefault().Value;
+                // юань
+                converter.CHF = xml.Elements("ValCurs").Elements("Valute").FirstOrDefault(x => x.Element("NumCode").Value == "756").Elements("Value").FirstOrDefault().Value;
+                // белларусь
+                converter.BYN = xml.Elements("ValCurs").Elements("Valute").FirstOrDefault(x => x.Element("NumCode").Value == "933").Elements("Value").FirstOrDefault().Value;
+                // польша
+                converter.PLN = xml.Elements("ValCurs").Elements("Valute").FirstOrDefault(x => x.Element("NumCode").Value == "985").Elements("Value").FirstOrDefault().Value;
 
                 _memoryCache.Set("key_currency", converter, TimeSpan.FromMinutes(1440));
             }
